@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/lynicis/opencode-frugon/actions/workflows/ci.yml/badge.svg)](https://github.com/lynicis/opencode-frugon/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/gh/lynicis/opencode-frugon/branch/main/graph/badge.svg?token=N4efCiYLNY)](https://codecov.io/gh/lynicis/opencode-frugon)
 
 A lightweight, zero-dependency OpenCode plugin that automatically captures LLM usage and logs it natively for [Frugon](https://github.com/Rodiun/frugon) — an open-source LLM cost analyzer.
 
