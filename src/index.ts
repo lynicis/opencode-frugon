@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { execSync } from 'child_process';
 
 interface FrugonConfig {
   enabled?: boolean;
@@ -107,17 +106,3 @@ function redact(obj: any) {
   }
 }
 
-export function cli(args: string[]) {
-  if (args[0] === 'usage') {
-    if (args[1] === '--frugon') {
-      try {
-        execSync(`frugon analyze "${config.outputPath}"`, { stdio: 'inherit' });
-      } catch (_e) {
-        console.error('Failed to run frugon. Is it installed? (uv tool install frugon)');
-        process.exit(1);
-      }
-    } else {
-      console.log(`Run 'opencode usage --frugon' to analyze logs at ${config.outputPath}`);
-    }
-  }
-}

@@ -13,7 +13,6 @@ See exactly where your LLM bill leaks right on your machine, with zero format co
 - **Zero Overhead:** Non-blocking async file streams ensure OpenCode performance is unaffected.
 - **Privacy First:** All logs are written locally. Secrets, API keys, and bearer tokens are automatically redacted.
 - **Configurable Capture:** Opt-in to capture full prompts/responses or only keep metadata and token usage.
-- **Built-in CLI:** Provides quick `opencode usage --frugon` integrations to run analyses instantly.
 
 ## Installation
 
@@ -70,15 +69,6 @@ In your OpenCode settings (`~/.config/opencode/opencode.json` or similar), enabl
 
 Once activated, `opencode-frugon` listens to OpenCode's `completion:end` events. Every time an LLM request finishes, it seamlessly appends a Frugon-compatible JSON object to your configured `outputPath`.
 
-### CLI Analysis
-
-If you have Frugon installed on your machine (`uv tool install frugon`), you can instantly analyze your OpenCode logs:
-
-```bash
-opencode usage --frugon
-```
-
-This acts as a passthrough to `frugon analyze <your-log-path>`, providing instant insights on your spending, token usage, and potential model routing savings.
 
 ## License
 

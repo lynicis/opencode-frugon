@@ -2,7 +2,7 @@ import { expect, test, describe, beforeEach, afterEach, mock } from 'bun:test';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import plugin, { cli } from './index';
+import plugin from './index';
 
 describe('opencode-frugon', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'frugon-test-'));
@@ -71,14 +71,4 @@ describe('opencode-frugon', () => {
     expect(json.request.messages[0].content).toBe('[REDACTED]');
   });
 
-  test('cli handles non-frugon command', () => {
-    const logSpy = mock(console.log);
-    const originalConsoleLog = console.log;
-    console.log = logSpy;
-
-    cli(['usage']);
-
-    console.log = originalConsoleLog;
-    expect(logSpy).toHaveBeenCalled();
-  });
 });
