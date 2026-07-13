@@ -17,14 +17,21 @@ See exactly where your LLM bill leaks right on your machine, with zero format co
 
 ## Installation
 
-Install globally via npm or bun so OpenCode can discover it:
+Install directly through OpenCode using one of these methods:
 
-```bash
-# Using bun
-bun install -g opencode-frugon
+**Method 1: Using the TUI**
 
-# Using npm
-npm install -g opencode-frugon
+1. Open the OpenCode TUI.
+2. Select **Install Plugin**.
+3. Enter `opencode-frugon`.
+
+**Method 2: Via Configuration**
+Add `opencode-frugon` to the `plugins` array in your `~/.config/opencode/opencode.json`:
+
+```json
+{
+  "plugins": ["opencode-frugon"]
+}
 ```
 
 ## Configuration
