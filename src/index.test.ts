@@ -1,4 +1,4 @@
-import { expect, test, describe, beforeEach, afterEach, mock } from 'bun:test';
+import { expect, test, describe, beforeEach, afterEach } from 'bun:test';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
@@ -70,5 +70,4 @@ describe('opencode-frugon', () => {
     const json = JSON.parse(fs.readFileSync(tmpLog, 'utf-8').trim());
     expect(json.request.messages[0].content).toBe('[REDACTED]');
   });
-
 });

@@ -105,4 +105,3 @@ function redact(obj: any) {
     }
   }
 }
-
