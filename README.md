@@ -14,6 +14,11 @@ See exactly where your LLM bill leaks right on your machine, with zero format co
 - **Privacy First:** All logs are written locally. Secrets, API keys, and bearer tokens are automatically redacted.
 - **Configurable Capture:** Opt-in to capture full prompts/responses or only keep metadata and token usage.
 
+## Requirements
+
+- **OpenCode** (to generate the logs)
+- **Frugon** (to analyze the logs: `uv tool install frugon`)
+
 ## Installation
 
 Install directly through OpenCode using one of these methods:
@@ -68,7 +73,6 @@ In your OpenCode settings (`~/.config/opencode/opencode.json` or similar), enabl
 ### Automatic Logging
 
 Once activated, `opencode-frugon` listens to OpenCode's `completion:end` events. Every time an LLM request finishes, it seamlessly appends a Frugon-compatible JSON object to your configured `outputPath`.
-
 
 ## License
 
