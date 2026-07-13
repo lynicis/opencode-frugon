@@ -23,24 +23,33 @@ const DEFAULT_CONFIG: FrugonConfig = {
 
 let config = { ...DEFAULT_CONFIG };
 
-export function activate(ctx: any, userConfig?: Partial<FrugonConfig>) {
+export default async (_input: any, userConfig?: Partial<FrugonConfig>) => {
   config = { ...DEFAULT_CONFIG, ...userConfig };
-  if (!config.enabled) return;
+  if (!config.enabled) return {};
 
   const dir = path.dirname(config.outputPath!);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  // OpenCode Plugin API hook (assumed shape based on instructions)
-  ctx.on('completion:end', (event: any) => {
-    try {
-      logEvent(event);
-    } catch (_e) {
-      console.error('[opencode-frugon] Error logging event:', e);
+  return {
+    event: (e: any) => {
+      // Listen to the bus event for completion
+      if (
+        e?.name === 'completion' ||
+        e?.type === 'completion' ||
+        e?.name === 'completion:end' ||
+        e?.type === 'completion:end'
+      ) {
+        try {
+          logEvent(e.data || e);
+        } catch (err) {
+          console.error('[opencode-frugon] Error logging event:', err);
+        }
+      }
     }
-  });
-}
+  };
+};
 
 function logEvent(event: any) {
   // Map OpenCode event to Frugon native OpenAI schema
