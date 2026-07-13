@@ -46,7 +46,7 @@ In your OpenCode settings (`~/.config/opencode/opencode.json` or similar), enabl
 {
   "plugin": [
     [
-      "/Users/lynicis/Projects/opencode-frugon/dist/index.js",
+      "file:///Users/lynicis/Projects/opencode-frugon/dist/index.js",
       {
         "enabled": true,
         "outputPath": "~/.local/share/frugon/opencode.jsonl",
