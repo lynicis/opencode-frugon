@@ -32,8 +32,6 @@ export default async (_input: any, userConfig?: Partial<FrugonConfig>) => {
 
   if (!config.enabled) return {};
 
-  fs.mkdirSync(path.dirname(config.outputPath!), { recursive: true });
-
   return {
     event: (...args: any[]) => {
       try {
@@ -121,11 +119,13 @@ function logEvent(event: any) {
     redact(logEntry);
   }
 
-  // O_APPEND ensures atomic writes on POSIX for small strings
   const line = JSON.stringify(logEntry) + '\n';
-  fs.appendFile(config.outputPath!, line, (err) => {
-    if (err) console.error('[opencode-frugon] Write failed:', err);
-  });
+  try {
+    fs.mkdirSync(path.dirname(config.outputPath!), { recursive: true });
+    fs.appendFileSync(config.outputPath!, line, 'utf-8');
+  } catch (err) {
+    console.error('[opencode-frugon] Write failed:', err);
+  }
 }
 
 function redact(obj: any) {

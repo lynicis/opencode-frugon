@@ -40,8 +40,6 @@ describe('opencode-frugon', () => {
       });
     }
 
-    await new Promise((r) => setTimeout(r, 50));
-
     const content = fs.readFileSync(tmpLog, 'utf-8');
     const json = JSON.parse(content.trim());
     expect(json.model).toBe('gpt-4');
@@ -70,8 +68,24 @@ describe('opencode-frugon', () => {
       });
     }
 
-    await new Promise((r) => setTimeout(r, 50));
     const json = JSON.parse(fs.readFileSync(tmpLog, 'utf-8').trim());
     expect(json.request.messages[0].content).toBe('[REDACTED]');
+  });
+
+  test('handles unwritable path gracefully', async () => {
+    const hooks = await plugin({}, { outputPath: '/nonexistent-dir/log.jsonl' });
+    expect(hooks.event).toBeDefined();
+    if (!hooks.event) return;
+
+    const originalErr = console.error;
+    console.error = () => {};
+
+    try {
+      expect(() =>
+        hooks.event({ event: { name: 'completion', data: { model: 'test' } } })
+      ).not.toThrow();
+    } finally {
+      console.error = originalErr;
+    }
   });
 });
