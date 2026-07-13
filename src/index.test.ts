@@ -9,11 +9,11 @@ describe('opencode-frugon', () => {
   const tmpLog = path.join(tmpDir, 'opencode.jsonl');
 
   beforeEach(() => {
-    if (fs.existsSync(tmpLog)) fs.unlinkSync(tmpLog);
+    fs.rmSync(tmpLog, { force: true });
   });
 
   afterEach(() => {
-    if (fs.existsSync(tmpLog)) fs.unlinkSync(tmpLog);
+    fs.rmSync(tmpLog, { force: true });
   });
 
   test('activates and logs completion event', async () => {

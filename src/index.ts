@@ -21,42 +21,63 @@ const DEFAULT_CONFIG: FrugonConfig = {
 };
 
 let config = { ...DEFAULT_CONFIG };
-
-function expandHome(filepath: string): string {
-  if (filepath.startsWith('~/') || filepath === '~') {
-    return filepath.replace('~', os.homedir());
-  }
-  return filepath;
-}
+const loggedMessages = new Set<string>();
 
 export default async (_input: any, userConfig?: Partial<FrugonConfig>) => {
   config = { ...DEFAULT_CONFIG, ...userConfig };
 
   if (config.outputPath) {
-    config.outputPath = expandHome(config.outputPath);
+    config.outputPath = config.outputPath.replace(/^~(?=$|\/)/, os.homedir());
   }
 
   if (!config.enabled) return {};
 
-  const dir = path.dirname(config.outputPath!);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+  fs.mkdirSync(path.dirname(config.outputPath!), { recursive: true });
 
   return {
-    event: ({ event: e }: any) => {
-      // Listen to the bus event for completion
-      if (
-        e?.name === 'completion' ||
-        e?.type === 'completion' ||
-        e?.name === 'completion:end' ||
-        e?.type === 'completion:end'
-      ) {
-        try {
-          logEvent(e.data || e);
-        } catch (err) {
-          console.error('[opencode-frugon] Error logging event:', err);
+    event: (...args: any[]) => {
+      try {
+        let eventName;
+        let eventData: any;
+
+        if (typeof args[0] === 'string') {
+          eventName = args[0];
+          eventData = args[1];
+        } else {
+          const e = args[0]?.event || args[0];
+          eventName = e?.name || e?.type;
+          eventData = e?.data || e?.properties || e;
         }
+
+        // Support for legacy OpenCode completion events
+        if (eventName === 'completion' || eventName === 'completion:end') {
+          logEvent(eventData);
+        }
+
+        // Support for newer OpenCode message.updated events
+        else if (eventName === 'message.updated') {
+          const info = eventData?.info;
+          if (info && info.role === 'assistant' && info.finish && !loggedMessages.has(info.id)) {
+            loggedMessages.add(info.id);
+
+            const legacyEventFormat = {
+              model: info.modelID || 'unknown',
+              timestamp: new Date(info.time?.completed || Date.now()).toISOString(),
+              usage: {
+                promptTokens: info.tokens?.input || 0,
+                completionTokens: info.tokens?.output || 0
+              },
+              sessionId: info.sessionID,
+              provider: info.providerID,
+              cost: info.cost,
+              finishReason: info.finish
+            };
+
+            logEvent(legacyEventFormat);
+          }
+        }
+      } catch (err) {
+        console.error('[opencode-frugon] Error logging event:', err);
       }
     }
   };
