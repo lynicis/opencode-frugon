@@ -1,6 +1,7 @@
 {
   "name": "opencode-frugon",
   "version": "1.0.0",
+  "type": "module",
   "description": "OpenCode plugin to log LLM usage natively for Frugon",
   "main": "dist/index.js",
   "scripts": {

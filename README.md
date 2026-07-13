@@ -30,30 +30,33 @@ Install directly through OpenCode using one of these methods:
 3. Enter `opencode-frugon`.
 
 **Method 2: Via Configuration**
-Add `opencode-frugon` to the `plugins` array in your `~/.config/opencode/opencode.json`:
+Add `opencode-frugon` to the `plugin` array in your `~/.config/opencode/opencode.json`:
 
 ```json
 {
-  "plugins": ["opencode-frugon"]
+  "plugin": ["opencode-frugon"]
 }
 ```
 
 ## Configuration
 
-In your OpenCode settings (`~/.config/opencode/opencode.json` or similar), enable and configure the plugin:
+In your OpenCode settings (`~/.config/opencode/opencode.json` or similar), enable and configure the plugin using the tuple format in the `plugin` array:
 
 ```json
 {
-  "plugins": {
-    "opencode-frugon": {
-      "enabled": true,
-      "outputPath": "~/.local/share/frugon/opencode.jsonl",
-      "captureMetadata": true,
-      "redactSecrets": true,
-      "capturePrompts": false,
-      "captureResponses": false
-    }
-  }
+  "plugin": [
+    [
+      "opencode-frugon",
+      {
+        "enabled": true,
+        "outputPath": "~/.local/share/frugon/opencode.jsonl",
+        "captureMetadata": true,
+        "redactSecrets": true,
+        "capturePrompts": false,
+        "captureResponses": false
+      }
+    ]
+  ]
 }
 ```
 
