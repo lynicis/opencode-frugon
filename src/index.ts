@@ -44,7 +44,7 @@ export default async (_input: any, userConfig?: Partial<FrugonConfig>) => {
   }
 
   return {
-    event: (e: any) => {
+    event: ({ event: e }: any) => {
       // Listen to the bus event for completion
       if (
         e?.name === 'completion' ||

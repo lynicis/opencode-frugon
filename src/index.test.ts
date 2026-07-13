@@ -25,15 +25,17 @@ describe('opencode-frugon', () => {
 
     if (handler) {
       handler({
-        name: 'completion:end',
-        data: {
-          model: 'gpt-4',
-          timestamp: '2024-01-01T00:00:00Z',
-          promptTokens: 10,
-          completionTokens: 20,
-          sessionId: 'sess-123',
-          request: { messages: [{ role: 'user', content: 'hi' }] },
-          response: { content: 'hello' }
+        event: {
+          name: 'completion:end',
+          data: {
+            model: 'gpt-4',
+            timestamp: '2024-01-01T00:00:00Z',
+            promptTokens: 10,
+            completionTokens: 20,
+            sessionId: 'sess-123',
+            request: { messages: [{ role: 'user', content: 'hi' }] },
+            response: { content: 'hello' }
+          }
         }
       });
     }
@@ -58,10 +60,12 @@ describe('opencode-frugon', () => {
 
     if (hooks.event) {
       hooks.event({
-        name: 'completion',
-        data: {
-          model: 'gpt-3.5',
-          request: { messages: [{ role: 'user', content: 'my bearer token_123' }] }
+        event: {
+          name: 'completion',
+          data: {
+            model: 'gpt-3.5',
+            request: { messages: [{ role: 'user', content: 'my bearer token_123' }] }
+          }
         }
       });
     }
