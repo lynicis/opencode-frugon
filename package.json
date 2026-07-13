@@ -4,6 +4,9 @@
   "type": "module",
   "description": "OpenCode plugin to log LLM usage natively for Frugon",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
     "build": "bun build src/index.ts --outdir dist/ --target=node",
     "lint": "eslint src/",
