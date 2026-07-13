@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -23,4 +26,5 @@ jobs:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: softprops/action-gh-release@v3
         with:
+          token: ${{ github.token }}
           generate_release_notes: true
