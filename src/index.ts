@@ -22,8 +22,20 @@ const DEFAULT_CONFIG: FrugonConfig = {
 
 let config = { ...DEFAULT_CONFIG };
 
+function expandHome(filepath: string): string {
+  if (filepath.startsWith('~/') || filepath === '~') {
+    return filepath.replace('~', os.homedir());
+  }
+  return filepath;
+}
+
 export default async (_input: any, userConfig?: Partial<FrugonConfig>) => {
   config = { ...DEFAULT_CONFIG, ...userConfig };
+
+  if (config.outputPath) {
+    config.outputPath = expandHome(config.outputPath);
+  }
+
   if (!config.enabled) return {};
 
   const dir = path.dirname(config.outputPath!);
